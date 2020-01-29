@@ -10,7 +10,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
@@ -28,7 +30,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     NavigationView navigationView;
     Toolbar toolbar;
     ActionBarDrawerToggle toggle;
-    ImageButton imgbtnExModel, imgbtnCamera;
+    ImageButton imgbtnExModel, imgbtnCamera, imgbtnGallery;
+
 
 
     @Override
@@ -61,6 +64,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
+        imgbtnGallery = findViewById(R.id.imgbtnGallery);
+        imgbtnGallery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent2 = new Intent(MainActivity.this, Gallery.class);
+                startActivity(intent2);
+            }
+        });
+
 
 
         navigationView = findViewById(R.id.nav_view);
@@ -76,6 +88,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     }
+
 
     //Closes the Navigation Drawer by pressing the back button
     @Override
@@ -107,7 +120,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.garage:
                 Toast.makeText(MainActivity.this, "Garage Selected", Toast.LENGTH_SHORT).show();
-                Intent intent3 = new Intent(MainActivity.this, Garage.class);
+                Intent intent3 = new Intent(Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/maps"));
                 startActivity(intent3);
                 break;
 

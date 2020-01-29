@@ -17,6 +17,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
+import androidx.palette.graphics.Palette;
 
 
 import java.io.File;
@@ -26,6 +27,8 @@ import java.util.Date;
 
 
 public class Camera extends AppCompatActivity {
+
+    private TextView mVibrant, mDarkVibrant, mLightVibrant, mMuted, mDarkMuted, mLightMuted;
 
     String currentPhotoPath;
     static final int REQUEST_TAKE_PHOTO = 1;
@@ -37,6 +40,13 @@ public class Camera extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.camera);
+
+        mVibrant = findViewById(R.id.TextView1);
+        mDarkVibrant = findViewById(R.id.TextView2);
+        mLightVibrant = findViewById(R.id.TextView3);
+        mMuted = findViewById(R.id.TextView4);
+        mDarkMuted = findViewById(R.id.TextView5);
+        mLightMuted = findViewById(R.id.TextView6);
 
        // btnTake = findViewById(R.id.btnOc);
        /* btnTake.setOnClickListener(new View.OnClickListener() {
@@ -79,6 +89,20 @@ public class Camera extends AppCompatActivity {
             //get the bitmap from the file name
             Bitmap takenImage = BitmapFactory.decodeFile(currentPhotoPath);
 
+            if (takenImage != null){
+                Palette.from(takenImage).generate(new Palette.PaletteAsyncListener() {
+                    @Override
+                    public void onGenerated(@Nullable Palette palette) {
+                        setViewSwatch(mVibrant, palette.getVibrantSwatch(), "Vibrant");
+                        setViewSwatch(mDarkVibrant, palette.getDarkVibrantSwatch(), "Dark Vibrant");
+                        setViewSwatch(mLightVibrant, palette.getLightVibrantSwatch(), "Light Vibrant");
+                        setViewSwatch(mMuted, palette.getMutedSwatch(), "Muted");
+                        setViewSwatch(mDarkMuted, palette.getDarkMutedSwatch(), "Dark Muted");
+                        setViewSwatch(mLightMuted, palette.getLightMutedSwatch(), "Light Muted");
+                    }
+                });
+            }
+
             //set the image ine the iv_photo view
             ImageView iv_photo;
             iv_photo = findViewById(R.id.imgView1);
@@ -106,5 +130,13 @@ public class Camera extends AppCompatActivity {
         // Save a file: path for use with ACTION_VIEW intents
         currentPhotoPath = image.getAbsolutePath();
         return image;
+    }
+
+    private void setViewSwatch(TextView view, Palette.Swatch swatch, final String title){
+        if (swatch != null){
+            view.setBackgroundColor(swatch.getRgb());
+            view.setText(title);
+            view.setTextColor(swatch.getTitleTextColor());
+        }
     }
 }

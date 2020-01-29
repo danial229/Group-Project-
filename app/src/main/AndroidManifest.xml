@@ -36,9 +36,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".Existing_Model"/>
-        <activity android:name=".Garage"
-            android:screenOrientation="portrait"/>
         <activity android:name=".Camera"/>
+        <activity android:name=".Gallery"
+            android:screenOrientation="portrait"/>
 
         <provider
             android:name="androidx.core.content.FileProvider"
